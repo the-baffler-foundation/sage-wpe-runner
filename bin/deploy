@@ -1,0 +1,40 @@
+#Download WP in a dir structure that precisely matches WPE
+cd /
+mkdir -p $FOLDER && cd $FOLDER
+wp --allow-root core download --version=4.9.10
+
+
+# Clone the theme source files, drop existing version history
+cd wp-content/themes/
+git clone ${THEME_REPO}
+cd ${THEME_NAME}
+git config --global user.email "${WPE_INSTALL}@${WPE_INSTALL}.com"
+git config --global user.name "${WPE_INSTALL}"
+rm -rf .git
+rm -rf .gitignore
+
+#install dependencies
+composer install --no-ansi --no-dev --no-interaction --optimize-autoloader --no-progress
+npm install
+npm run build:production
+
+#Create a new git repo configurated to push built files to WPE
+cd $FOLDER
+mv wp-content/themes/${THEME_NAME}/.gitignoredeploy .gitignore
+git init
+git remote add origin git@git.wpengine.com:${ENVIRONMENT}/${WPE_INSTALL}.git
+
+
+wp --allow-root core config --dbname=wordpress --dbuser=root --dbpass=wordpress --dbhost=db:3306
+wp --allow-root core install --url=${WPE_INSTALL}.dev --title=${WPE_INSTALL} --admin_user=wordpress --admin_email=${WPE_INSTALL}@${WPE_INSTALL}.com --skip-email
+wp --allow-root theme activate ${THEME_NAME}
+
+# build blade templates -- I find I have to do this twice
+# the first build throws this error: 'Warning: Some code is trying to do a URL redirect.'
+wp --allow-root blade compile
+wp --allow-root blade compile
+
+git add . 
+git status
+git commit -m "Deployment Commit"
+git push origin master #might need to force
