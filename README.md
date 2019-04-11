@@ -1,4 +1,4 @@
-#So, you want to test your WPE deployment
+# So, you want to test your WPE deployment
 
 These scripts are intended to replicate the environment of a Gitlab runner in charge of building and deploying a Roots Sage v9+ WordPress theme to a WPEngine environment.
 
@@ -6,13 +6,13 @@ I'm deeply indebted to [Toby Schrapel](https://github.com/schrapel), who created
 
 I was [inspired to create this repo](https://stackoverflow.com/questions/46497115/is-it-possible-to-debug-a-gitlab-ci-build-interactively) because it's not possible to interactively debug a Gitlab CI process, and WPE frequently makes small adjustments to their environment that require corresponding tweaks to a deployment pipeline. Tired of waiting for the Gitlab CI to build every time you need to experiment? You might want to try fire up the docker config here and play around before editing the Gitlab config.
 
-##Requirments
+## Requirements
 * Docker Desktop, I'm using Community ^2.0
 * Inside the Docker containers, we need Composer, [Blade Generate](https://github.com/alwaysblank/blade-generate), and the WP CLI. 
 * Yes, Sage calls for Yarn, I get better results using npm inside the Gitlab runner. MySQL 8+ doesn't play nice with the WP CLI, I use 5.7 here.  
 
 
-##Process
+## Process
 
 1. Fill in the appropriate blanks in sample.env and rename the file .env.
 
