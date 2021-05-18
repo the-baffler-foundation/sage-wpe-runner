@@ -2,8 +2,6 @@
 
 These scripts are intended to replicate the environment of a Gitlab runner in charge of building and deploying a Roots Sage v9+ WordPress theme to a WPEngine environment.
 
-I'm deeply indebted to [Toby Schrapel](https://github.com/schrapel), who created the Gitlab before script and deploy script that I picked apart for this repo. 
-
 I was [inspired to create this repo](https://stackoverflow.com/questions/46497115/is-it-possible-to-debug-a-gitlab-ci-build-interactively) because it's not possible to interactively debug a Gitlab CI process, and WPE frequently makes small adjustments to their environment that require corresponding tweaks to a deployment pipeline. Tired of waiting for the Gitlab CI to build every time you need to experiment? You might want to try fire up the docker config here and play around before editing the Gitlab config.
 
 ## Requirements
